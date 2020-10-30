@@ -6,18 +6,18 @@ import PropTypes from "prop-types";
  */
 import classes from "./BurgerIngredient.css";
 
-const BurgerIngredient = (props) => {
+const BurgerIngredient = ({ type }) => {
     let ingredient = null;
 
-    switch (props.type) {
+    switch (type) {
         case "bread-bottom":
             ingredient = <div className={classes.BreadBottom}></div>;
             break;
         case "bread-top":
             ingredient = (
                 <div className={classes.BreadTop}>
-                    <div classes={classes.Seeds1}></div>
-                    <div classes={classes.Seeds2}></div>
+                    <div className={classes.Seeds1}></div>
+                    <div className={classes.Seeds2}></div>
                 </div>
             );
             break;
