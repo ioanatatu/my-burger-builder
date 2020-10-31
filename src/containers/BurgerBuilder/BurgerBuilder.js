@@ -23,23 +23,43 @@ class BurgerBuilder extends Component {
             meat: 0,
         },
         totalPrice: 4,
+        purchasable: false,
     };
+
+    updatePurchaseState = (ingredients) => {
+        const sum = Object.keys(ingredients)
+            .map((key) => {
+                return ingredients[key];
+            })
+            .reduce((total, el) => total + el);
+
+        this.setState({ purchasable: sum > 0 }, () => {
+            console.log("this.state.purchasable", this.state.purchasable);
+        });
+    };
+
     addIngredientHandler = (type) => {
+        // add an ingredient based on type
         const ingredientUpdatedCount = this.state.ingredients[type] + 1;
 
-        // state should be updated in an immutable way
+        // copy the state to update it in an immutable way
         const updatedIngredients = {
             ...this.state.ingredients,
         };
+
+        // update the copy of the state with the new ingredient count
         updatedIngredients[type] = ingredientUpdatedCount;
 
         const priceAddition = INGREDIENT_PRICES[type];
         const oldPrice = this.state.totalPrice;
         const newPrice = oldPrice + priceAddition;
+
+        // set state with updated information
         this.setState({
             totalPrice: newPrice,
             ingredients: updatedIngredients,
         });
+        this.updatePurchaseState(updatedIngredients);
     };
 
     removeIngredientHandler = (type) => {
@@ -60,6 +80,7 @@ class BurgerBuilder extends Component {
             totalPrice: oldPrice - INGREDIENT_PRICES[type],
             ingredients: updatedIngredients,
         });
+        this.updatePurchaseState(updatedIngredients);
     };
 
     render() {
@@ -77,6 +98,8 @@ class BurgerBuilder extends Component {
                     ingredientAdded={this.addIngredientHandler}
                     ingredientRemoved={this.removeIngredientHandler}
                     disabled={disabledInfo}
+                    price={this.state.totalPrice}
+                    purchasable={this.state.purchasable}
                 />
             </React.Fragment>
         );
