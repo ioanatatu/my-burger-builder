@@ -26,6 +26,7 @@ class BurgerBuilder extends Component {
         },
         totalPrice: 4,
         purchasable: false,
+        purchasing: false,
     };
 
     updatePurchaseState = (ingredients) => {
@@ -85,6 +86,17 @@ class BurgerBuilder extends Component {
         this.updatePurchaseState(updatedIngredients);
     };
 
+    // IMPORTANT !!! if we use < ES6 function syntax instead of arrow function, this keyword refers to a value that is undefined, if the method was triggered through an event
+    // with arrow function it refers to the class BurgerBuilder and its state
+    purchaseHandler = () => {
+        console.log(this);
+        this.setState({ purchasing: true });
+    };
+
+    cancelPurchaseHandler = () => {
+        this.setState({ purchasing: false });
+    };
+
     render() {
         const disabledInfo = {
             ...this.state.ingredients,
@@ -95,7 +107,10 @@ class BurgerBuilder extends Component {
 
         return (
             <React.Fragment>
-                <Modal>
+                <Modal
+                    show={this.state.purchasing}
+                    modalClosed={this.cancelPurchaseHandler}
+                >
                     <OrderSummary ingredients={this.state.ingredients} />
                 </Modal>
                 <Burger ingredients={this.state.ingredients} />
@@ -105,6 +120,7 @@ class BurgerBuilder extends Component {
                     disabled={disabledInfo}
                     price={this.state.totalPrice}
                     purchasable={this.state.purchasable}
+                    ordered={this.purchaseHandler}
                 />
             </React.Fragment>
         );
