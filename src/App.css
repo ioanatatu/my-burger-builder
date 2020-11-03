@@ -1,0 +1,5 @@
+.App * {
+    box-sizing: border-box;
+    /*to check if it works*/
+    /* background-color: rgb(76, 144, 160); */
+}

@@ -1,10 +1,35 @@
-import React from "react";
+import React, { Component } from "react";
 import classes from "./Layout.css";
+import Toolbar from "../Navigation/Toolbar/Toolbar";
+import SideDrawer from "../Navigation/SideDrawer/SideDrawer";
 
-const Layout = (props) => (
-    <React.Fragment>
-        <div>Toolbar, SideDrawer, Backdrop</div>
-        <main className={classes.Content}>{props.children}</main>
-    </React.Fragment>
-);
+class Layout extends Component {
+    state = {
+        showSideDrawer: false,
+    };
+
+    closeSideDrawerHandler = () => {
+        this.setState({ showSideDrawer: false });
+    };
+    toggleSideDrawerHandler = () => {
+        // DO NOT use state in a setState because of the async nature of setState
+        // this is the clean way of setting a state when it depends on the old state
+        this.setState((prevState) => {
+            return { showSideDrawer: !prevState.showSideDrawer };
+        });
+    };
+
+    render() {
+        return (
+            <React.Fragment>
+                <Toolbar drawerToggleClicked={this.toggleSideDrawerHandler} />
+                <SideDrawer
+                    closed={this.closeSideDrawerHandler}
+                    open={this.state.showSideDrawer}
+                />
+                <main className={classes.Content}>{this.props.children}</main>
+            </React.Fragment>
+        );
+    }
+}
 export default Layout;
