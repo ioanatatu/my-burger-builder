@@ -18,3 +18,6 @@ const Modal = (props) => (
 );
 
 export default Modal;
+
+/////////////////////////////////////// IF I USE HERE A CLASS-BASED COMPONENT INSTEAD OF A FUNCTIONAL COMPONENT, code is more complicated
+/////////////////////////////////////// revisit lesson 183 to see difference and component life cycle methods
