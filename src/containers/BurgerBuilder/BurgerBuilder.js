@@ -3,6 +3,7 @@ import Burger from "../../components/Burger/Burger.js";
 import BuildControls from "../../components/Burger/BuildControls/BuildControls";
 import Modal from "../../components/UI/Modal/Modal";
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
+import axios from "../../axios-orders";
 
 const INGREDIENT_PRICES = {
     salad: 0.5,
@@ -96,8 +97,32 @@ class BurgerBuilder extends Component {
     cancelPurchaseHandler = () => {
         this.setState({ purchasing: false });
     };
-    continuePurchaseHandler = () => {
+
+    continuePurchaseHandler = async () => {
+        // dummy order
+        const order = {
+            ingredients: this.state.ingredients,
+            price: this.state.totalPrice, // for production price should be calculated on the server, to make sure the user is not manipulating the code on the client side
+            customer: {
+                firstname: "Tom",
+                lastname: "Green",
+                address: {
+                    street: "Tree Street",
+                    city: "Berlin",
+                },
+                email: "some@some.com",
+            },
+            deliveryMethod: "fast",
+        };
         console.log("continue with purchase");
+        // here axios request
+        // ONLY for firebase you need to add .json at the end of the endpoint --> the endpoint ou need to target for firebase to function correctly
+        try {
+            const response = await axios.post("/orders.json", order);
+            console.log(response);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     render() {
