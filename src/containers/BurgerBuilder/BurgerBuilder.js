@@ -4,6 +4,7 @@ import BuildControls from "../../components/Burger/BuildControls/BuildControls";
 import Modal from "../../components/UI/Modal/Modal";
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import Spinner from "../../components/UI/Spinner/Spinner";
+import withErrorHandler from "../../components/WithErrorHandler/WithErrorHandler";
 import axios from "../../axios-orders";
 
 const INGREDIENT_PRICES = {
@@ -128,10 +129,12 @@ class BurgerBuilder extends Component {
         } */
         axios
             .post("/orders.json", order)
-            .then((response) => {
+            .then((res) => {
+                console.log(res);
                 this.setState({ loading: false, purchasing: false });
             })
             .catch((error) => {
+                console.log(error);
                 this.setState({ loading: false, purchasing: false });
             });
 
@@ -179,4 +182,6 @@ class BurgerBuilder extends Component {
     }
 }
 
-export default BurgerBuilder;
+// wow, really nice way of solving this!!
+// withErrorHandler returns a function with which we wrap the BurgerBuilder component --> lesson 183
+export default withErrorHandler(BurgerBuilder, axios);
