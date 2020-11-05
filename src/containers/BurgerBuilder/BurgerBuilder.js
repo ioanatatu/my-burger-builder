@@ -151,7 +151,20 @@ class BurgerBuilder extends Component {
                 this.setState({ loading: false, purchasing: false });
             });*/
         // firebase is really quick, so the spinner might not even be visible, but it's good practice nonetheless to show it in case there is some latency
-        this.props.history.push("/checkout");
+        const queryParams = [];
+        // passing ingredients via QUERY PARAMS
+        for (let i in this.state.ingredients) {
+            queryParams.push(
+                encodeURIComponent(i) +
+                    "=" +
+                    encodeURIComponent(this.state.ingredients[i])
+            );
+        }
+        const queryString = queryParams.join("&");
+        this.props.history.push({
+            pathname: "/checkout",
+            search: "?" + queryString,
+        });
     };
 
     render() {
