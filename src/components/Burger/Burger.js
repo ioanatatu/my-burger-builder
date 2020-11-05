@@ -1,23 +1,27 @@
 import React from "react";
 import BurgerIngredient from "./BurgerIngredient/BurgerIngredient";
+import { withRouter } from "react-router-dom"; // HOC provided by rrd to pass router-specific properties
 /*
  *
  * css classes
  */
 import classes from "./Burger.css";
 
-const Burger = ({ ingredients }) => {
+const Burger = (props) => {
+    console.log("props from Burger", props);
     // map the object into an array of ingredients
-    let mappedIngredientsOnComponents = Object.keys(ingredients)
+    let mappedIngredientsOnComponents = Object.keys(props.ingredients)
         .map((ingredientKey) => {
-            return [...Array(ingredients[ingredientKey])].map((_, index) => {
-                return (
-                    <BurgerIngredient
-                        key={ingredientKey + index}
-                        type={ingredientKey}
-                    />
-                );
-            });
+            return [...Array(props.ingredients[ingredientKey])].map(
+                (_, index) => {
+                    return (
+                        <BurgerIngredient
+                            key={ingredientKey + index}
+                            type={ingredientKey}
+                        />
+                    );
+                }
+            );
         })
         .reduce((arr, el) => {
             return arr.concat(el);
@@ -37,4 +41,4 @@ const Burger = ({ ingredients }) => {
     );
 };
 
-export default Burger;
+export default withRouter(Burger);

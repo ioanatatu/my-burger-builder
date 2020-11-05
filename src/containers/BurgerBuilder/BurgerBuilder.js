@@ -30,6 +30,8 @@ class BurgerBuilder extends Component {
     };
 
     componentWillMount() {
+        console.log(this.props);
+
         axios
             .get(
                 "https://myburgerproject-a948d.firebaseio.com/ingredients.json"
@@ -111,8 +113,8 @@ class BurgerBuilder extends Component {
         this.setState({ purchasing: false });
     };
 
-    continuePurchaseHandler = /*async*/ () => {
-        this.setState({ loading: true });
+    continuePurchaseHandler = () => {
+        /*this.setState({ loading: true });
         // dummy order
         const order = {
             ingredients: this.state.ingredients,
@@ -131,12 +133,13 @@ class BurgerBuilder extends Component {
         console.log("continue with purchase");
         // ONLY for firebase you need to add .json at the end of the endpoint --> the endpoint ou need to target for firebase to function correctly
 
-        /* try {
-            const response = await axios.post("/orders.json", order);
-            console.log(response);
-        } catch (error) {
-            console.log(error);
-        } */
+        // try {
+        //     const response = await axios.post("/orders.json", order);
+        //     console.log(response);
+        // } catch (error) {
+        //     console.log(error);
+        // }
+
         axios
             .post("/orders.json", order)
             .then((res) => {
@@ -146,9 +149,9 @@ class BurgerBuilder extends Component {
             .catch((error) => {
                 console.log(error);
                 this.setState({ loading: false, purchasing: false });
-            });
-
+            });*/
         // firebase is really quick, so the spinner might not even be visible, but it's good practice nonetheless to show it in case there is some latency
+        this.props.history.push("/checkout");
     };
 
     render() {
